@@ -1,0 +1,123 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Email Spam Prediction API",
+      "description": "API for predicting whether an email is spam or not using a trained BERT model.",
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:5000",
+        "description": "Local development server"
+      }
+    ],
+    "paths": {
+      "/api/v1/predict": {
+        "post": {
+          "summary": "Predict if an email is spam or not",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailData"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful prediction",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PredictionResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              }
+            },
+            "429": {
+              "description": "Too many requests",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "EmailData": {
+          "type": "object",
+          "properties": {
+            "Attachment Count": {
+              "type": "string"
+            },
+            "Attachment Extension": {
+              "type": "string"
+            },
+            "Email From": {
+              "type": "string"
+            },
+            "Email Subject": {
+              "type": "string"
+            },
+            "closeNotes": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "Email From",
+            "Email Subject"
+          ]
+        },
+        "PredictionResponse": {
+          "type": "object",
+          "properties": {
+            "predicted_class": {
+              "type": "integer"
+            },
+            "class_label": {
+              "type": "string"
+            },
+            "model": {
+              "type": "string"
+            }
+          }
+        },
+        "ErrorResponse": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
