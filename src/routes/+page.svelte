@@ -21,7 +21,8 @@
     let attachmentExtension = "";
 
     const predictSingle = async () => {
-    loading = true;
+        loading = true;
+        answerExample = { models: [] };
         try {
             const response = await fetch('https://4c58-172-205-170-63.ngrok-free.app/api/v1/predict', {
                 method: 'POST',
@@ -128,6 +129,7 @@ async function updateCSV(data: PredictionData[]): Promise<string> {
 const predictBatch = async () => {
     try {
         loading = true;
+        
         const formData = new FormData();
         formData.append('file', file);
 
@@ -145,6 +147,10 @@ const predictBatch = async () => {
 
         const updatedCSV = await updateCSV(data);
         downloadCSV(updatedCSV);
+
+        file = {} as File;
+        isFileUploaded = false;
+        isCSVFile = false;
 
         loading = false;
     } catch (error) {
@@ -239,10 +245,6 @@ function downloadCSV(csvData : string) {
                         <label for="attachmentExtension" class="block mb-2">Attachment Extension: </label>
                         <Input id="attachmentExtension" size="lg" bind:value={attachmentExtension} placeholder="pdf, pdf, xlsx" />
                     </div>
-                </div>
-                <div class="flex items-center justify-start ml-5 mb-10">
-                    <Badge color="blue" class="m-3">POST</Badge>
-                    <spam> api-console-team01.vercel.app/api/v1/predict </spam>
                 </div>
                 <div class="flex justify-center items-center flex-col">
                     <Button class="w-1/2 ml-10 bg-primary-700"
@@ -426,4 +428,24 @@ function downloadCSV(csvData : string) {
         grid-template-columns: 1fr;
     }
     } 
+
+    @media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: center;
+        height: auto;
+        padding: 1rem;
+    }
+
+    .header h1 {
+        margin-top: 1rem;
+    }
+
+    .header .doc-item {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    
+}
 </style>
