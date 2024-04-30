@@ -24,7 +24,7 @@
         loading = true;
         answerExample = { models: [] };
         try {
-            const response = await fetch('https://fea4-172-205-170-63.ngrok-free.app/api/v1/predict', {
+            const response = await fetch('https://wahoo-above-normally.ngrok-free.app/api/v1/predict', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -133,7 +133,7 @@ const predictBatch = async () => {
         const formData = new FormData();
         formData.append('file', file);
 
-        const response = await fetch('https://fea4-172-205-170-63.ngrok-free.app/api/v1/predict_batch', {
+        const response = await fetch('https://wahoo-above-normally.ngrok-free.app/api/v1/predict_batch', {
             method: 'POST',
             body: formData
         });
