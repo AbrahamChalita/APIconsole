@@ -21,11 +21,10 @@
     let attachmentExtension = "";
 
     const predictSingle = async () => {
-        loading = true;
+    loading = true;
         try {
             const response = await fetch('https://a8c5-172-205-170-63.ngrok-free.app/api/v1/predict', {
                 method: 'POST',
-                mode: 'no-cors',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -198,7 +197,7 @@ function downloadCSV(csvData : string) {
             <p> API for predicting whether an email is spam or not using a combination of three models: </p>
             <div class="models">
                 <Badge large color="primary" class="m-3">SVM</Badge>
-                <Badge large color="primary" class="m-3">RNN</Badge>
+                <Badge large color="primary" class="m-3">LSTM</Badge>
                 <Badge large color="primary" class="m-3">BERT</Badge>
             </div>
             <p> API used for experimenting and testing the models. </p>
@@ -243,7 +242,7 @@ function downloadCSV(csvData : string) {
                 </div>
                 <div class="flex items-center justify-start ml-5 mb-10">
                     <Badge color="blue" class="m-3">POST</Badge>
-                    <spam> localhost:5000/v1/api/predict </spam>
+                    <spam> https://a8c5-172-205-170-63.ngrok-free.app/api/v1/predict </spam>
                 </div>
                 <div class="flex justify-center items-center flex-col">
                     <Button class="w-1/2 ml-10 bg-primary-700"
