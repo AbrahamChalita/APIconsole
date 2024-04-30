@@ -1,123 +1,172 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-      "title": "Email Spam Prediction API",
-      "description": "API for predicting whether an email is spam or not using a trained BERT model.",
-      "version": "1.0.0"
-    },
-    "servers": [
-      {
-        "url": "http://localhost:5000",
-        "description": "Local development server"
-      }
-    ],
-    "paths": {
-      "/api/v1/predict": {
-        "post": {
-          "summary": "Predict if an email is spam or not",
-          "requestBody": {
+  "swagger": "2.0",
+  "info": {
+    "title": "Spam Detection API",
+    "description": "API for detecting spam emails using BERT, SVM, and LSTM models",
+    "version": "1.0.0"
+  },
+  "host": "a8c5-172-205-170-63.ngrok-free.app",
+  "basePath": "/api/v1",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/predict": {
+      "post": {
+        "summary": "Predict if an email is spam or not",
+        "description": "Predicts if an email is spam or not using BERT, SVM, and LSTM models",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "email",
+            "description": "Email details",
             "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EmailData"
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Attachment Count": {
+                  "type": "string"
+                },
+                "Attachment Extension": {
+                  "type": "string"
+                },
+                "Email From": {
+                  "type": "string"
+                },
+                "Email Subject": {
+                  "type": "string"
+                },
+                "closeNotes": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "models": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "predicted_class": {
+                        "type": "integer"
+                      },
+                      "class_label": {
+                        "type": "string"
+                      },
+                      "spam_probability": {
+                        "type": "number"
+                      },
+                      "not_spam_probability": {
+                        "type": "number"
+                      },
+                      "model": {
+                        "type": "string"
+                      }
+                    }
+                  }
                 }
               }
             }
           },
-          "responses": {
-            "200": {
-              "description": "Successful prediction",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/PredictionResponse"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Bad request",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "429": {
-              "description": "Too many requests",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       }
     },
-    "components": {
-      "schemas": {
-        "EmailData": {
-          "type": "object",
-          "properties": {
-            "Attachment Count": {
-              "type": "string"
-            },
-            "Attachment Extension": {
-              "type": "string"
-            },
-            "Email From": {
-              "type": "string"
-            },
-            "Email Subject": {
-              "type": "string"
-            },
-            "closeNotes": {
-              "type": "string"
+    "/predict_batch": {
+      "post": {
+        "summary": "Predict if a batch of emails is spam or not",
+        "description": "Predicts if a batch of emails is spam or not using BERT, SVM, and LSTM models",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "file",
+            "type": "file",
+            "description": "CSV file containing email details",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "models": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "predicted_class": {
+                          "type": "integer"
+                        },
+                        "class_label": {
+                          "type": "string"
+                        },
+                        "spam_probability": {
+                          "type": "number"
+                        },
+                        "not_spam_probability": {
+                          "type": "number"
+                        },
+                        "model": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           },
-          "required": [
-            "Email From",
-            "Email Subject"
-          ]
-        },
-        "PredictionResponse": {
-          "type": "object",
-          "properties": {
-            "predicted_class": {
-              "type": "integer"
-            },
-            "class_label": {
-              "type": "string"
-            },
-            "model": {
-              "type": "string"
-            }
-          }
-        },
-        "ErrorResponse": {
-          "type": "object",
-          "properties": {
-            "error": {
-              "type": "string"
-            }
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       }
     }
   }
+}
