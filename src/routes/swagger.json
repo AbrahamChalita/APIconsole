@@ -5,7 +5,7 @@
     "description": "API for detecting spam emails using BERT, SVM, and LSTM models",
     "version": "1.0.0"
   },
-  "host": "a8c5-172-205-170-63.ngrok-free.app",
+  "host": "fea4-172-205-170-63.ngrok-free.app",
   "basePath": "/api/v1",
   "schemes": [
     "https"
