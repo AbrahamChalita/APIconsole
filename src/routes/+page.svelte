@@ -25,6 +25,7 @@
         try {
             const response = await fetch('https://a8c5-172-205-170-63.ngrok-free.app/api/v1/predict', {
                 method: 'POST',
+                mode: 'no-cors',
                 headers: {
                     'Content-Type': 'application/json'
                 },
