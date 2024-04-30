@@ -242,7 +242,7 @@ function downloadCSV(csvData : string) {
                 </div>
                 <div class="flex items-center justify-start ml-5 mb-10">
                     <Badge color="blue" class="m-3">POST</Badge>
-                    <spam> https://a8c5-172-205-170-63.ngrok-free.app/api/v1/predict </spam>
+                    <spam> api-console-team01.vercel.app/api/v1/predict </spam>
                 </div>
                 <div class="flex justify-center items-center flex-col">
                     <Button class="w-1/2 ml-10 bg-primary-700"
